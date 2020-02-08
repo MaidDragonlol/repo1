@@ -1,0 +1,26 @@
+1，<build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.1.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+（1）/plugins与/plugin父类吗，即biuld指向plugins坐标，plugins指向plugin？
+（2）RELEASE是个啥，说它是编程时的中间临时文件，obj不是用来存放的吗，还要这个干嘛。还有说它与debug类似，这个可不可以用debug代替？
+（3）注解通过类加载器、反射得到class对象、构造方法，生成实例返回，存在spring ioc 容器中，调用构造方法的时候是直接从spring ioc 容器调用吗?RELEASE是spring ioc 容器吗？
+（4）网上说：Spring Boot Maven plugin能够将Spring Boot应用打包为可执行的jar或war文件，然后以通常的方式运行Spring Boot应用。
+    	Spring Boot应用打包：？是从maven库中抽取需要用的依赖，然后打包为新的jar文件，这个意思吗？
+
+
+
+@Controller   @SpringBootApplication   @Value   @ConﬁgurationProperties    @ResponseBody 
+

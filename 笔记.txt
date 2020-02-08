@@ -1,6 +1,0 @@
-1，创建Maven程，
-2，导入起步依赖坐标：配置（<parent><dependencies>)
-3，配置引导类Aplication
-4，编写Controller
-5，测试
-（还可以用spring initializr直接创建）
