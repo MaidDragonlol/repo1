@@ -2,6 +2,7 @@ package com.example.springboot1;
 
 import com.sun.net.httpserver.Authenticator;
 import org.omg.PortableInterceptor.SUCCESSFUL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RestController
 
 public class Controller {
-    private static final boolean SUCCESS = true;
+
     /*@RequestMapping(value = "/name")
      *//*@RequestParam 注解配合 @RequestMapping 一起使用，可以将请求的参数同处理方法的参数绑定在一起。
     @RestController
@@ -74,9 +75,11 @@ public class Controller {
     public @ResponseBody ResponseEntity < String > patchPerson() {
         return new ResponseEntity < String > ("Response from PATCH method", HttpStatus.OK);
     }*/
+    @Autowired
+    private static  String SUCCESS = null;
     @RequestMapping("/testPathVariable/{id}")
-    public boolean testPathVariable(@PathVariable("id") Integer id2) {
-        System.out.println("testPathVariable: " + id2);
+    public String testPathVariable(@PathVariable("id") Integer id2) {
+        SUCCESS = "testPathVariable: " + id2;
         return SUCCESS;
     }
     /*@PathVariable:绑定路径中的占位符参数到方法参数变量中；只能绑定路径中的占位符参数，且路径中必须有参数。
