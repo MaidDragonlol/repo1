@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+        <!DOCTYPE mapper PUBLIC
+                "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.StudentMapper">
+<resultMap id="result" type="com.example.demo.domain.StudentDomain">
+	<result property="stuid" column="stuid" />
+    <result property="stuname" column="stuname" />
+    <result property="stusex" column="stusex" />
+    <result property="stubirth" column="stubirthr"/>
+
+</resultMap>
+
+<select id="ListStudnt" resultMap="result">
+		SELECT * FROM studenttable
+	</select>
+
+<select id="findStudntByName" resultMap="result">
+		SELECT * FROM studenttable where stuname=#{stuname}
+	</select>
+
+<insert id="insertStudent" parameterType="com.example.demo.domain.StudentDomain"
+        keyProperty="stuid" useGeneratedKeys="true">
+		INSERT INTO studenttable
+		(
+		stuid,stuname,stusex,stubirth,classDomain
+		)
+		VALUES (
+		#{stuid, jdbcType=INTEGER},
+		#{stuname, jdbcType=VARCHAR},
+		#{stusex, jdbcType=CHAR},
+		#{stubirth, jdbcType=VARCHAR}
+		)
+	</insert>
+
+<delete id="delete" parameterType="int">
+		delete from studenttable where stuid=#{stuid}
+	</delete>
+
+<update id="Update" parameterType="com.example.demo.domain.StudentDomain">
+	update studenttable set studenttable.stuname=#{stuname},studenttable.stusex=#{stusex},studenttable.stubirth=#{stubirth} where studenttable.stuid=#{stuid}
+	</update>
+</mapper>
