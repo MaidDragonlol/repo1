@@ -1,0 +1,90 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+        <!DOCTYPE mapper PUBLIC
+                "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.StudentMapper">
+<resultMap id="result" type="com.example.demo.domain.StudentDomain">
+	<result property="stuid" column="stuid" />
+    <result property="stuname" column="stuname" />
+    <result property="stusex" column="stusex" />
+    <result property="stubirth" column="stubirthr"/>
+
+</resultMap>
+
+<select id="ListStudnt" resultMap="result">
+		SELECT * FROM studenttable
+	</select>
+
+<select id="findStudntByName" resultMap="result">
+		SELECT * FROM studenttable where stuname=#{stuname}
+	</select>
+
+<insert id="insertStudent" parameterType="com.example.demo.domain.StudentDomain"
+        keyProperty="stuid" useGeneratedKeys="true">
+		INSERT INTO studenttable
+		(
+		stuid,stuname,stusex,stubirth,classDomain
+		)
+		VALUES (
+		#{stuid, jdbcType=INTEGER},
+		#{stuname, jdbcType=VARCHAR},
+		#{stusex, jdbcType=CHAR},
+		#{stubirth, jdbcType=VARCHAR}
+		)
+	</insert>
+
+<delete id="delete" parameterType="int">
+		delete from studenttable where stuid=#{stuid}
+	</delete>
+<!--批量插入,//其中stuid是自增主键-->
+    <insert id="batchInsertStudents" useGeneratedKeys="true" keyProperty="stuid">
+        insert into sudenttable (stuname,stusex,stubirth)
+        values
+        <foreach collection="list" item="c" separator=",">
+            (#{c.stuname},#{c.stusex},#{c.stubirth})
+        </foreach>
+    </insert>             <!--在mybatis的配置文件中，有个叫keyProperty和useGeneratedKeys的属性。useGeneratedKeys 参数只针对 insert 语句生效，默认为 false。当设置为 true 时，表示如果插入的表以自增列为主键，则允许 JDBC 支持自动生成主键，并可将自动生成的主键返回。
+                            具体用法： useGeneratedKeys=”true” keyProperty=”对应的主键的对象”。-->
+
+<!--批量更新-->
+    <update id="updateBatch"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update studenttable
+            <set>
+                stuid=${item.stuid}
+            </set>
+            where stuid = ${item.stuid}
+        </foreach>
+    </update>
+    <!--条件查询<if>标签-->
+    <select id="findByUser" resultType="studentDomain" parameterType="studentDomain">
+        select * from user where 1=1
+        <if test="stuname!=null and stuname != '' ">   and stuname like #{stuname}
+           </if>
+        <if test="stusex != null">   and stusex like #{stusex}
+           </if>
+           </select>
+    <!--条件查询<where>标签，与上面去掉where 1=1功能相同-->
+    <select id="findByUserB" resultType="studentDomain" parameterType="studentDomain">
+        select * from user
+        <where>
+            <if test="stuname!=null and stuname != '' ">   and stuname like #{stuname}
+            </if>
+            <if test="stusex != null">   and stusex like #{stusex}
+            </if>
+        </where>
+    </select>
+    
+
+    <!-- 抽取重复的语句代码片段 -->
+    <sql id="defaultSql">   select * from user  </sql>
+    <!--  select * from user where id in (1,2,3,4,5); 的xml表示方法-->
+    <select id="findInIds" resultType="studentDomain" parameterType="listInput">
+    <include refid="defaultSql"></include>   <where>
+    <if test="stuid != null and stuid.size() > 0">
+        <foreach collection="listInput" open="id in ( " close=")" item="stuuid"  separator=",">      #{uid}
+        </foreach>    </if>   </where>  </select>
+
+
+
+ </mapper>
